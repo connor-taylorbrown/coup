@@ -1,0 +1,13 @@
+income: 1
+foreignAid: 2
+tax: 3
+steal: 2, (-2,No)
+assassinate: -3, (0,Yes)
+coup: -7, (0,Yes)
+exchange
+
+Duke: block foreignAid, tax
+Captain: steal, block steal
+Ambassador: block steal, exchange
+Assassin: assassinate
+Contessa: block assassinate
