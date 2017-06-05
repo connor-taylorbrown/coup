@@ -19,10 +19,12 @@ public class Turn extends Action {
     }
 
     /**
-     * Add a new action to the turn stack
+     * Add a new action to the turn stack. The most recently added action cannot be blocked or challenged.
      * @param action to add to stack
      */
     public void add(Action action) {
+        action.setBlocked(false);
+        action.setChallenged(false);
         actions.add(action);
     }
 

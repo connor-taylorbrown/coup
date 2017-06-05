@@ -7,8 +7,8 @@ package coup;
  */
 public abstract class Action {
     protected Player player;
-    private boolean blocked = false;
-    private boolean challenged = false;
+    private boolean blocked;
+    private boolean challenged;
 
     public void setPlayer(Player player) {
         this.player = player;
