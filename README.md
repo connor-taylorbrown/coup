@@ -11,4 +11,4 @@ actions.
 A turn ends when the next player takes an independent action.  
 Rules are stored in the ```resources/actions``` file, which consists of two sections:  
 - ```<action>(:<gain>(,\(<coins>,<influence>\))?)?``` specifies coins gained and, if applicable, change in target's coins and influence.
-- ```(<action>|block <action>):<card>(,<card>)*``` specifies, if applicable, the card required to make or block the action.
+- ```<action>:<card>(,<card>)*``` specifies, if applicable, the card required to make or block the action.

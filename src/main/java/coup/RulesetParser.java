@@ -23,6 +23,7 @@ public class RulesetParser {
 
     public void read() throws IOException, RulesetSyntaxException {
         readActions();
+        readCards();
     }
 
     private void readActions() throws IOException, RulesetSyntaxException {
@@ -46,5 +47,39 @@ public class RulesetParser {
         int targetCoins = tokens.nextInt();
         boolean targetInfluence = tokens.next().toLowerCase().startsWith("y");
         actions.put(name, new TransitiveAction(coins, targetCoins, targetInfluence));
+    }
+
+    private void readCards() {
+        while(reader.hasNextLine()) {
+            String line = reader.nextLine().trim();
+            Scanner tokens = new Scanner(line).useDelimiter("[^A-Za-z]");
+
+            String lookahead = tokens.next();
+            if(lookahead.equals("block")) readBlockAction(tokens.next(), tokens);
+            else readChallengeAction(lookahead, tokens);
+        }
+    }
+
+    private void readChallengeAction(String name, Scanner tokens) {
+        Set<String> cards = new HashSet<>();
+        while (tokens.hasNext()) {
+            cards.add(tokens.next());
+        }
+        // Directly challenge the action
+        ChallengeAction challenge = new ChallengeAction(cards, actions.get(name));
+        actions.put("challenge " + name, challenge);
+    }
+
+    private void readBlockAction(String name, Scanner tokens) {
+        Set<String> cards = new HashSet<>();
+        while (tokens.hasNext()) {
+            cards.add(tokens.next());
+        }
+        // Directly block the action
+        BlockAction block = new BlockAction(actions.get(name));
+        actions.put("block " + name, block);
+        // Challenge the block
+        ChallengeAction challenge = new ChallengeAction(cards, block);
+        actions.put("challenge block " + name, challenge);
     }
 }

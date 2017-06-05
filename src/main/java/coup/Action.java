@@ -6,14 +6,28 @@ package coup;
  * to support the definition of actions at runtime.
  */
 public abstract class Action {
-    Player player;
+    protected Player player;
+    private boolean blocked = false;
+    private boolean challenged = false;
 
-    /**
-     * Sets receiver to current player before invocation.
-     * @param player current player
-     */
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    protected boolean isBlocked() {
+        return blocked;
+    }
+
+    protected void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
+    protected boolean isChallenged() {
+        return challenged;
+    }
+
+    protected void setChallenged(boolean challenged) {
+        this.challenged = challenged;
     }
 
     public abstract void execute();

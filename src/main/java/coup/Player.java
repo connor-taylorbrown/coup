@@ -4,18 +4,23 @@ package coup;
  * Maintains player state as known to all players. As the identity of each card is not shared, the number in hand is
  * a strategic target referred to as influence.
  */
-public class Player {
+public abstract class Player {
     private int influence;
     private int coins;
     private Action action;
 
+    /**
+     * Initialise player with custom amount of coins and influence
+     * @param coins starting amount
+     * @param influence starting amount
+     */
     public Player(int coins, int influence) {
         this.coins = coins;
         this.influence = influence;
     }
 
     /**
-     * Player starts with 2 coins according to standard rules.
+     * Player starts with 2 coins and 2 influence according to vanilla rules.
      */
     public Player() {
         this(2,2);
@@ -59,4 +64,10 @@ public class Player {
     public void doAction() {
         action.execute();
     }
+
+    /**
+     * Reveal a card in hand to the table
+     * @return name of the card
+     */
+    public abstract String reveal();
 }

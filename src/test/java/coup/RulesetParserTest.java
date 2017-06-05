@@ -13,25 +13,32 @@ import static org.junit.Assert.*;
  * Created by connortaylorbrown on 4/06/17.
  */
 public class RulesetParserTest {
-    RulesetParser parser;
-    Map<String, Action> actions;
-    Player player;
-    Player target;
+    private Map<String, Action> actions;
+    private Turn turn;
+    private Player player;
+    private Player target;
+    private BlockAction blockAssassinate;
 
     @Before
     public void setUp() {
-        player = new Player(3,2);
-        target = new Player();
+        player = new SimplePlayer(3,2);
+        target = new SimplePlayer();
+        turn = new Turn();
+        player.setAction(turn);
 
         try {
-            parser = new RulesetParser();
+            RulesetParser parser = new RulesetParser();
             parser.read();
             actions = parser.getActions();
 
             TransitiveAction assassinate = (TransitiveAction)actions.get("assassinate");
+            assassinate.setPlayer(player);
             assassinate.setTarget(target);
-            player.setAction(assassinate);
-            player.doAction();
+            turn.add(assassinate);
+
+            blockAssassinate = (BlockAction)actions.get("block assassinate");
+            blockAssassinate.setPlayer(target);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (RulesetSyntaxException e) {
@@ -42,12 +49,24 @@ public class RulesetParserTest {
     }
 
     @Test
-    public void assassinateReducesInfluence() {
-        assertEquals(1, target.getInfluence());
+    public void assassinateReducesTargetInfluence() {
+        int expectedInfluence = target.getInfluence() - 1;
+        player.doAction();
+        assertEquals(expectedInfluence, target.getInfluence());
     }
 
     @Test
     public void assassinateReducesCoins() {
-        assertEquals(0, player.getCoins());
+        int expectedCoins = player.getCoins() - 3;
+        player.doAction();
+        assertEquals(expectedCoins, player.getCoins());
+    }
+
+    @Test
+    public void blockAssassinatePreservesTargetInfluence() {
+        int expectedInfluence = target.getInfluence();
+        turn.add(blockAssassinate);
+        player.doAction();
+        assertEquals(expectedInfluence, target.getInfluence());
     }
 }

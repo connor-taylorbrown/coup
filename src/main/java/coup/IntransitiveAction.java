@@ -19,6 +19,6 @@ public class IntransitiveAction extends Action {
      */
     @Override
     public void execute() {
-        player.updateCoins(coins);
+        if(!isBlocked() && !isChallenged()) player.updateCoins(coins);
     }
 }

@@ -6,9 +6,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by connortaylorbrown on 3/06/17.
+ * Created by connortaylorbrown on 5/06/17.
  */
-public class IntransitiveActionTest {
+public class BlockActionTest {
     private Action action;
     private Player player;
 
@@ -21,9 +21,13 @@ public class IntransitiveActionTest {
     }
 
     @Test
-    public void coinsIncreaseOnAction() {
-        int expectedCoins = player.getCoins() + 2;
+    public void blockedActionDoesNothing() {
+        BlockAction block = new BlockAction(action);
+        block.execute();
+
+        int expectedCoins = player.getCoins();
         player.doAction();
         assertEquals(expectedCoins, player.getCoins());
     }
+
 }

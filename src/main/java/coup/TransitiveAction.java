@@ -33,8 +33,10 @@ public class TransitiveAction extends IntransitiveAction {
      */
     @Override
     public void execute() {
-        super.execute();
-        target.updateCoins(targetCoins);
-        if(targetInfluence) target.removeInfluence();
+        if(!isBlocked() && !isChallenged()) {
+            super.execute();
+            target.updateCoins(targetCoins);
+            if (targetInfluence) target.removeInfluence();
+        }
     }
 }
