@@ -70,4 +70,22 @@ public abstract class Player {
      * @return name of the card
      */
     public abstract String reveal();
+
+    /**
+     * Remove a named card from the hand and return it to the Court Deck after being revealed
+     * @param card name of the card
+     */
+    public abstract void returnCard(String card);
+
+    /**
+     * Pick up a number of cards from the Court Deck
+     * @param number of cards to pick up
+     */
+    public abstract void pickUp(int number);
+
+    /**
+     * Swap a number of cards in the hand with the Court Deck. Must have at least that number of cards in hand.
+     * @param number of cards to swap
+     */
+    public abstract void swap(int number);
 }

@@ -1,5 +1,7 @@
 package coup;
 
+import java.util.List;
+
 /**
  * Player class with minimal functionality
  */
@@ -15,5 +17,20 @@ public class SimplePlayer extends Player {
     @Override
     public String reveal() {
         return null;
+    }
+
+    @Override
+    public void returnCard(String revealed) {
+
+    }
+
+    @Override
+    public void pickUp(int number) {
+
+    }
+
+    @Override
+    public void swap(int number) {
+
     }
 }

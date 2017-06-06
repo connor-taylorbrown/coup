@@ -10,20 +10,36 @@ import java.util.*;
  */
 public class RulesetParser {
     private Scanner reader;
+    private Map<String, Action> customActions;
     private Map<String, Action> actions;
 
     public RulesetParser() throws FileNotFoundException {
         this.reader = new Scanner(new InputStreamReader(getClass().getResourceAsStream("/ruleset")));
+        this.customActions = new HashMap<>();
         this.actions = new HashMap<>();
+    }
+
+    /**
+     * Add a custom action to the ruleset
+     * @param name to reference action
+     * @param action object for execution
+     */
+    public void addCustomAction(String name, Action action) {
+        customActions.put(name, action);
+    }
+
+    /**
+     * Build action map from well-formed ruleset file
+     * @throws IOException if problem with file system
+     * @throws RulesetSyntaxException if unrecognised action
+     */
+    public void read() throws IOException, RulesetSyntaxException {
+        readActions();
+        readCards();
     }
 
     public Map<String, Action> getActions() {
         return actions;
-    }
-
-    public void read() throws IOException, RulesetSyntaxException {
-        readActions();
-        readCards();
     }
 
     private void readActions() throws IOException, RulesetSyntaxException {
@@ -33,7 +49,13 @@ public class RulesetParser {
 
             Scanner tokens = new Scanner(line).useDelimiter("[^0-9A-Za-z\\-]+");
             String name = tokens.next();
-            if(tokens.hasNext()) readIntransitiveAction(name, tokens);
+            if(!tokens.hasNext()) {
+                Action customAction = customActions.get(name);
+                if(customAction == null)
+                    throw new RulesetSyntaxException("Unrecognised action type: " + name);
+                actions.put(name, customAction);
+            }
+            else readIntransitiveAction(name, tokens);
         }
     }
 

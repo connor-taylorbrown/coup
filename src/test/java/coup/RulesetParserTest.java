@@ -28,6 +28,7 @@ public class RulesetParserTest {
 
         try {
             RulesetParser parser = new RulesetParser();
+            parser.addCustomAction("exchange", new ExchangeAction());
             parser.read();
             actions = parser.getActions();
 

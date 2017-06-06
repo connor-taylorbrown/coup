@@ -14,7 +14,6 @@ public class ChallengeAction extends Action {
      * Set of cards which win challenge
      */
     private Set<String> cards;
-    private Player target;
     private Action toChallenge;
 
     /**
@@ -28,18 +27,26 @@ public class ChallengeAction extends Action {
     }
 
     /**
-     * If the target reveals a card in the set, the challenger loses influence. If not, the target loses influence.
+     * If the target reveals a card in the set, the target swaps it and the challenger forfeits a card.
+     * If not, the target loses the revealed card.
      */
     @Override
     public void execute() {
-        this.target = toChallenge.player;   // Target is always the player of the challenged action
+        Player target = toChallenge.player;   // Target is always the player of the challenged action
 
-        if(cards.contains(target.reveal())) {
+        String revealed = target.reveal();
+        if(cards.contains(revealed)) {
             toChallenge.setChallenged(false);
+
             player.removeInfluence();
+            player.reveal();
+
+            target.returnCard(revealed);
+            target.pickUp(1);
         }
         else {
             toChallenge.setChallenged(true);
+
             target.removeInfluence();
         }
     }
