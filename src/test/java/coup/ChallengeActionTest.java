@@ -23,7 +23,7 @@ public class ChallengeActionTest {
         cards.add("Ambassador");
         cards.add("Captain");
 
-        player = new SimplePlayer();
+        player = new SimplePlayer("playa");
         target = mock(Player.class);
 
         Action challenged = new TransitiveAction(2,-2,false);

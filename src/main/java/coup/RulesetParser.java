@@ -7,16 +7,21 @@ import java.util.*;
  * Converts the contents of the ruleset file into a set of actions for the rule engine to reference. The interpreter
  * pattern is inappropriate for this task, as this file is a declarative specification and no actions are actually
  * invoked.
+ * All rules applied are drawn from the resources/ruleset file at start. Custom Action classes can be added to the
+ * parser to support expansion packs, but if not named in the file they will not be used.
  */
 public class RulesetParser {
     private Scanner reader;
     private Map<String, Action> customActions;
+
+    private Set<String> cardNames;
     private Map<String, Action> actions;
 
     public RulesetParser() throws FileNotFoundException {
         this.reader = new Scanner(new InputStreamReader(getClass().getResourceAsStream("/ruleset")));
         this.customActions = new HashMap<>();
         this.actions = new HashMap<>();
+        this.cardNames = new HashSet<>();
     }
 
     /**
@@ -31,15 +36,28 @@ public class RulesetParser {
     /**
      * Build action map from well-formed ruleset file
      * @throws IOException if problem with file system
-     * @throws RulesetSyntaxException if unrecognised action
+     * @throws RulesetSyntaxException if unrecognised action or undeclared card
      */
     public void read() throws IOException, RulesetSyntaxException {
+        readCardNames();
         readActions();
-        readCards();
+        readCardActions();
+    }
+
+    public Deck getDeck() {
+        return new Deck(cardNames, 3);
     }
 
     public Map<String, Action> getActions() {
         return actions;
+    }
+
+    private void readCardNames() {
+        Scanner tokens = new Scanner(reader.nextLine().trim()).useDelimiter("[^A-Za-z]");
+        while(tokens.hasNext()) {
+            cardNames.add(tokens.next());
+        }
+        reader.nextLine();
     }
 
     private void readActions() throws IOException, RulesetSyntaxException {
@@ -71,7 +89,7 @@ public class RulesetParser {
         actions.put(name, new TransitiveAction(coins, targetCoins, targetInfluence));
     }
 
-    private void readCards() {
+    private void readCardActions() throws RulesetSyntaxException {
         while(reader.hasNextLine()) {
             String line = reader.nextLine().trim();
             Scanner tokens = new Scanner(line).useDelimiter("[^A-Za-z]");
@@ -82,21 +100,25 @@ public class RulesetParser {
         }
     }
 
-    private void readChallengeAction(String name, Scanner tokens) {
+    private Set<String> getCards(Scanner tokens) throws RulesetSyntaxException {
         Set<String> cards = new HashSet<>();
         while (tokens.hasNext()) {
-            cards.add(tokens.next());
+            String card = tokens.next();
+            if(cardNames.contains(card)) cards.add(tokens.next());
+            else throw new RulesetSyntaxException("Undeclared card: " + card);
         }
+        return cards;
+    }
+
+    private void readChallengeAction(String name, Scanner tokens) throws RulesetSyntaxException {
+        Set<String> cards = getCards(tokens);
         // Directly challenge the action
         ChallengeAction challenge = new ChallengeAction(cards, actions.get(name));
         actions.put("challenge " + name, challenge);
     }
 
-    private void readBlockAction(String name, Scanner tokens) {
-        Set<String> cards = new HashSet<>();
-        while (tokens.hasNext()) {
-            cards.add(tokens.next());
-        }
+    private void readBlockAction(String name, Scanner tokens) throws RulesetSyntaxException {
+        Set<String> cards = getCards(tokens);
         // Directly block the action
         BlockAction block = new BlockAction(actions.get(name));
         actions.put("block " + name, block);

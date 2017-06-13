@@ -2,28 +2,32 @@ package coup;
 
 /**
  * Maintains player state as known to all players. As the identity of each card is not shared, the number in hand is
- * a strategic target referred to as influence.
+ * a strategic target referred to as influence. Player notifies observers when amount of coins or influence changes.
  */
 public abstract class Player {
+    protected String name;
     private int influence;
     private int coins;
     private Action action;
 
     /**
      * Initialise player with custom amount of coins and influence
+     * @param name of player
      * @param coins starting amount
      * @param influence starting amount
      */
-    public Player(int coins, int influence) {
+    public Player(String name, int coins, int influence) {
+        this.name = name;
         this.coins = coins;
         this.influence = influence;
     }
 
     /**
      * Player starts with 2 coins and 2 influence according to vanilla rules.
+     * @param name of player
      */
-    public Player() {
-        this(2,2);
+    public Player(String name) {
+        this(name,2,2);
     }
 
     public int getInfluence() {
@@ -35,7 +39,8 @@ public abstract class Player {
     }
 
     /**
-     * Increases the amount of coins by the given number.
+     * Increases the amount of coins by the given number. Assumes there are enough coins if increased by negative
+     * amount.
      * @param coins to add
      */
     public void updateCoins(int coins) {

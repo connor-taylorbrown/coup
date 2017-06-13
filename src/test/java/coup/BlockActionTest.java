@@ -15,7 +15,7 @@ public class BlockActionTest {
     @Before
     public void setUp() {
         action = new IntransitiveAction(2);
-        player = new SimplePlayer();
+        player = new SimplePlayer("playa");
 
         player.setAction(action);
     }

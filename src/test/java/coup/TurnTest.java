@@ -19,8 +19,8 @@ public class TurnTest {
     public void setUp() {
         turn = new Turn();
 
-        player = new SimplePlayer();
-        blocker = new SimplePlayer();
+        player = new SimplePlayer("playa");
+        blocker = new SimplePlayer("blocka");
         player.setAction(turn);
 
         action = new IntransitiveAction(2);

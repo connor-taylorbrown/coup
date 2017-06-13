@@ -21,8 +21,8 @@ public class RulesetParserTest {
 
     @Before
     public void setUp() {
-        player = new SimplePlayer(3,2);
-        target = new SimplePlayer();
+        player = new SimplePlayer("playa");
+        target = new SimplePlayer("Clay Pigeon");
         turn = new Turn();
         player.setAction(turn);
 

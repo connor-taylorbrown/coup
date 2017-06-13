@@ -16,8 +16,8 @@ public class TransitiveActionTest {
     @Before
     public void setUp() {
         action = new TransitiveAction(2,-2,false);
-        player = new SimplePlayer();
-        target = new SimplePlayer();
+        player = new SimplePlayer("playa");
+        target = new SimplePlayer("Clay Pigeon");
 
         action.setTarget(target);
 
