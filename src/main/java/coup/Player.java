@@ -1,14 +1,17 @@
 package coup;
 
+import java.util.Observable;
+
 /**
  * Maintains player state as known to all players. As the identity of each card is not shared, the number in hand is
  * a strategic target referred to as influence. Player notifies observers when amount of coins or influence changes.
  */
-public abstract class Player {
-    protected String name;
+public abstract class Player extends Observable {
+    private String name;
     private int influence;
     private int coins;
     private Action action;
+    protected Deck deck;
 
     /**
      * Initialise player with custom amount of coins and influence
@@ -30,6 +33,10 @@ public abstract class Player {
         this(name,2,2);
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getInfluence() {
         return influence;
     }
@@ -45,6 +52,8 @@ public abstract class Player {
      */
     public void updateCoins(int coins) {
         this.coins += coins;
+        if(coins != 0) this.setChanged();
+        this.notifyObservers();
     }
 
     /**
@@ -52,6 +61,12 @@ public abstract class Player {
      */
     public void removeInfluence() {
         this.influence--;
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
     }
 
     /**
@@ -93,4 +108,8 @@ public abstract class Player {
      * @param number of cards to swap
      */
     public abstract void swap(int number);
+
+    public String toString() {
+        return name;
+    }
 }

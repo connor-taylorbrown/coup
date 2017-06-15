@@ -1,5 +1,6 @@
 package coup;
 
+import coup.textui.SimplePlayer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,6 +15,7 @@ import static org.junit.Assert.*;
  */
 public class RulesetParserTest {
     private Map<String, Action> actions;
+    private Deck deck;
     private Turn turn;
     private Player player;
     private Player target;
@@ -31,6 +33,7 @@ public class RulesetParserTest {
             parser.addCustomAction("exchange", new ExchangeAction());
             parser.read();
             actions = parser.getActions();
+            deck = parser.getDeck();
 
             TransitiveAction assassinate = (TransitiveAction)actions.get("assassinate");
             assassinate.setPlayer(player);
@@ -69,5 +72,15 @@ public class RulesetParserTest {
         turn.add(blockAssassinate);
         player.doAction();
         assertEquals(expectedInfluence, target.getInfluence());
+    }
+
+    @Test
+    public void deckCanonicalSize() {
+        int i = 0;
+        while(!deck.isEmpty()) {
+            deck.getCard();
+            i++;
+        }
+        assertEquals(15, i);
     }
 }

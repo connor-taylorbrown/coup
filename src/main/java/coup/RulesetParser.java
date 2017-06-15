@@ -53,9 +53,10 @@ public class RulesetParser {
     }
 
     private void readCardNames() {
-        Scanner tokens = new Scanner(reader.nextLine().trim()).useDelimiter("[^A-Za-z]");
+        Scanner tokens = new Scanner(reader.nextLine().trim()).useDelimiter(",\\s*");
         while(tokens.hasNext()) {
-            cardNames.add(tokens.next());
+            String card = tokens.next();
+            cardNames.add(card);
         }
         reader.nextLine();
     }
@@ -92,33 +93,34 @@ public class RulesetParser {
     private void readCardActions() throws RulesetSyntaxException {
         while(reader.hasNextLine()) {
             String line = reader.nextLine().trim();
-            Scanner tokens = new Scanner(line).useDelimiter("[^A-Za-z]");
+            Scanner tokens = new Scanner(line).useDelimiter(" |:\\s*");
 
             String lookahead = tokens.next();
-            if(lookahead.equals("block")) readBlockAction(tokens.next(), tokens);
-            else readChallengeAction(lookahead, tokens);
+            if(lookahead.equals("block")) readBlockAction(tokens.next(), tokens.next());
+            else readChallengeAction(lookahead, tokens.next());
         }
     }
 
-    private Set<String> getCards(Scanner tokens) throws RulesetSyntaxException {
+    private Set<String> getCards(String cardText) throws RulesetSyntaxException {
         Set<String> cards = new HashSet<>();
+        Scanner tokens = new Scanner(cardText).useDelimiter(",\\s*");
         while (tokens.hasNext()) {
             String card = tokens.next();
-            if(cardNames.contains(card)) cards.add(tokens.next());
+            if(cardNames.contains(card)) cards.add(card);
             else throw new RulesetSyntaxException("Undeclared card: " + card);
         }
         return cards;
     }
 
-    private void readChallengeAction(String name, Scanner tokens) throws RulesetSyntaxException {
-        Set<String> cards = getCards(tokens);
+    private void readChallengeAction(String name, String cardText) throws RulesetSyntaxException {
+        Set<String> cards = getCards(cardText);
         // Directly challenge the action
         ChallengeAction challenge = new ChallengeAction(cards, actions.get(name));
         actions.put("challenge " + name, challenge);
     }
 
-    private void readBlockAction(String name, Scanner tokens) throws RulesetSyntaxException {
-        Set<String> cards = getCards(tokens);
+    private void readBlockAction(String name, String cardText) throws RulesetSyntaxException {
+        Set<String> cards = getCards(cardText);
         // Directly block the action
         BlockAction block = new BlockAction(actions.get(name));
         actions.put("block " + name, block);

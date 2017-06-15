@@ -28,6 +28,11 @@ public class Turn extends Action {
         actions.add(action);
     }
 
+    @Override
+    public boolean canPerform(Player player, Action trigger) {
+        return true;
+    }
+
     /**
      * Pop and execute each action in the turn stack
      */

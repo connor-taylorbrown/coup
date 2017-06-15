@@ -10,6 +10,11 @@ public class BlockAction extends Action {
         this.toBlock = toBlock;
     }
 
+    @Override
+    public boolean canPerform(Player player, Action trigger) {
+        return trigger == toBlock;
+    }
+
     /**
      * Block the action if this block is not successfully challenged
      */

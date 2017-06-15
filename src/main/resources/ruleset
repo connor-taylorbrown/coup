@@ -8,9 +8,10 @@ assassinate: -3, (0,Yes)
 coup: -7, (0,Yes)
 exchange
 
+steal: captain
 block foreignAid: duke
 tax: duke
-steal: captain
 block steal: captain, ambassador
 assassinate: assassin
 block assassinate: contessa
+exchange: ambassador

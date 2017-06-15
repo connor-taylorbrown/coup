@@ -1,5 +1,6 @@
 package coup;
 
+import coup.textui.SimplePlayer;
 import org.junit.Before;
 import org.junit.Test;
 

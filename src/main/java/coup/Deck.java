@@ -49,7 +49,6 @@ public class Deck {
      * @param card to add
      */
     public void returnCard(String card) {
-        contents.add(card);
         shuffle();
     }
 

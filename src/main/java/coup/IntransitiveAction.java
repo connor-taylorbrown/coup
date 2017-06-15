@@ -14,11 +14,17 @@ public class IntransitiveAction extends Action {
         this.coins = coins;
     }
 
+    @Override
+    public boolean canPerform(Player player, Action trigger) {
+        return player.getCoins() + coins >= 0;
+    }
+
     /**
      * Apply effect to current player
      */
     @Override
     public void execute() {
-        if(!isBlocked() && !isChallenged()) player.updateCoins(coins);
+        if(!isBlocked() && !isChallenged())
+            player.updateCoins(coins);
     }
 }

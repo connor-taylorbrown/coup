@@ -26,6 +26,11 @@ public class ChallengeAction extends Action {
         this.toChallenge = toChallenge;
     }
 
+    @Override
+    public boolean canPerform(Player player, Action trigger) {
+        return trigger == toChallenge;
+    }
+
     /**
      * If the target reveals a card in the set, the target swaps it and the challenger forfeits a card.
      * If not, the target loses the revealed card.

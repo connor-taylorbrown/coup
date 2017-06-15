@@ -6,6 +6,11 @@ package coup;
  */
 public class ExchangeAction extends Action {
     @Override
+    public boolean canPerform(Player player, Action trigger) {
+        return true;
+    }
+
+    @Override
     public void execute() {
         if(!isChallenged()) {
             player.pickUp(2);

@@ -10,8 +10,9 @@ import java.util.List;
  * Players are not returned but added to a list.
  */
 public abstract class Game {
-    private Turn turn;
-    private List<Player> players;
+    protected Turn turn;
+    protected List<Player> players;
+    protected Deck deck;
 
     /**
      * Adds a player of the appropriate type for the game interface.
