@@ -1,6 +1,7 @@
 package coup;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Basic Coup game structure, allows addAction to be implemented depending on user interface. A game is played by two
@@ -10,9 +11,25 @@ import java.util.List;
  * Players are not returned but added to a list.
  */
 public abstract class Game {
+    /**
+     * Turn executed with every game cycle
+     * @see Turn
+     */
     protected Turn turn;
+    /**
+     * All starting players in order of turns
+     */
     protected List<Player> players;
+    /**
+     * Court deck from which all cards are taken and returned to
+     * @see Deck
+     */
     protected Deck deck;
+    /**
+     * Index of actions applicable to the current game
+     * @see Action
+     */
+    protected Map<String, Action> rules;
 
     /**
      * Adds a player of the appropriate type for the game interface.
@@ -26,6 +43,33 @@ public abstract class Game {
      * @see Turn
      */
     protected abstract void addAction(Player player);
+
+    /**
+     * Gets the command from the player for the initial action in the turn.
+     * @param player whose turn it is to start
+     * @return command for the player's action
+     */
+    protected abstract String getCommand(Player player);
+
+    /**
+     * Checks whether any player wishes to respond to the last action, adds their response and returns true if so
+     * @param response to a previous action
+     * @return true if response is legal and requested
+     */
+    protected abstract boolean checkResponse(String response);
+
+    /**
+     * Adds a player's response to the last action
+     * @param player responding to last action
+     * @param command type of response
+     */
+    protected void addResponse(Player player, String command) {
+        Action action = rules.get(command);
+        action.setPlayer(player);
+        turn.add(action);
+
+        checkResponse("challenge " + command);
+    }
 
     /**
      * A game is finished if only one player has non-zero influence. Assumes one or more players.

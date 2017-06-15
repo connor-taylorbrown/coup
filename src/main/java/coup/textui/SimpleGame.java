@@ -8,8 +8,6 @@ import java.util.*;
  * Basic Game implementation for text-based interface
  */
 public class SimpleGame extends Game implements Observer {
-    private Map<String, Action> rules;
-
     public SimpleGame(Deck deck, Map<String, Action> rules) {
         this.players = new ArrayList<>();
         this.deck = deck;
@@ -32,16 +30,7 @@ public class SimpleGame extends Game implements Observer {
 
     @Override
     protected void addAction(Player player) {
-        Scanner input = new Scanner(System.in);
-
-        System.out.println("====================");
-        for(Player eachPlayer: players) System.out.println(eachPlayer);
-        for(String action: getAvailableActions(player).keySet()) System.out.println(action);
-        System.out.println();
-        for(String card: player.getHand()) System.out.println(card);
-        System.out.print(player.getName() + ": ");
-
-        String[] command = input.nextLine().split("\\s+");
+        String[] command = getCommand(player).split("\\s+");
         Action action = getAvailableActions(player).get(command[0]);
 
         if(command.length == 2) {
@@ -56,12 +45,26 @@ public class SimpleGame extends Game implements Observer {
             checkResponse("challenge " + command[0]);
     }
 
+    @Override
+    protected String getCommand(Player player) {
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("====================");
+        for(Player eachPlayer: players) System.out.println(eachPlayer);
+        for(String action: getAvailableActions(player).keySet()) System.out.println(action);
+        System.out.println();
+        for(String card: player.getHand()) System.out.println(card);
+        System.out.print(player.getName() + ": ");
+
+        return input.nextLine();
+    }
+
     /**
      * Checks whether player wishes to respond to an action, returns true if so
      * @param response to a previous action
      * @return true if response is legal and requested
      */
-    private boolean checkResponse(String response) {
+    protected boolean checkResponse(String response) {
         Scanner input = new Scanner(System.in);
 
         if(rules.containsKey(response)) {
@@ -73,14 +76,6 @@ public class SimpleGame extends Game implements Observer {
             }
         }
         return false;
-    }
-
-    private void addResponse(Player player, String command) {
-        Action action = rules.get(command);
-        action.setPlayer(player);
-        turn.add(action);
-
-        checkResponse("challenge " + command);
     }
 
     private Map<String,Action> getAvailableActions(Player player) {
