@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.Stack;
 
 /**
- * Basic Court Deck allowing card exchange and shuffle
+ * Basic Court Deck allowing card exchange
  */
 public class Deck {
     private Stack<String> contents;
@@ -49,13 +49,14 @@ public class Deck {
      * @param card to add
      */
     public void returnCard(String card) {
+        contents.add(card);
         shuffle();
     }
 
     /**
      * Shuffle the deck
      */
-    public void shuffle() {
+    private void shuffle() {
         Collections.shuffle(contents);
     }
 }

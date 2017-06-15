@@ -1,5 +1,7 @@
 package coup;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -11,6 +13,7 @@ public abstract class Player extends Observable {
     private int influence;
     private int coins;
     private Action action;
+    protected List<String> hand;
     protected Deck deck;
 
     /**
@@ -23,6 +26,7 @@ public abstract class Player extends Observable {
         this.name = name;
         this.coins = coins;
         this.influence = influence;
+        this.hand = new ArrayList<>();
     }
 
     /**
@@ -43,6 +47,10 @@ public abstract class Player extends Observable {
 
     public int getCoins() {
         return coins;
+    }
+
+    public List<String> getHand() {
+        return hand;
     }
 
     /**

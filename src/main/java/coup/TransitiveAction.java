@@ -29,14 +29,17 @@ public class TransitiveAction extends IntransitiveAction {
     }
 
     /**
-     * Apply effect to current player and target
+     * Apply effect to current player and target. Do not reduce influence below 0.
      */
     @Override
     public void execute() {
         if(!isBlocked() && !isChallenged()) {
             super.execute();
             target.updateCoins(targetCoins);
-            if (targetInfluence) target.removeInfluence();
+            if (targetInfluence && target.getInfluence() > 0) {
+                target.removeInfluence();
+                target.reveal();
+            }
         }
     }
 }

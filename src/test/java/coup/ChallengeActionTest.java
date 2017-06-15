@@ -1,6 +1,5 @@
 package coup;
 
-import coup.textui.SimplePlayer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +23,27 @@ public class ChallengeActionTest {
         cards.add("Ambassador");
         cards.add("Captain");
 
-        player = new SimplePlayer("playa");
+        player = new Player("playa") {
+            @Override
+            public String reveal() {
+                return null;
+            }
+
+            @Override
+            public void returnCard(String card) {
+
+            }
+
+            @Override
+            public void pickUp(int number) {
+
+            }
+
+            @Override
+            public void swap(int number) {
+
+            }
+        };
         target = mock(Player.class);
 
         Action challenged = new TransitiveAction(2,-2,false);

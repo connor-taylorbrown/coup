@@ -1,6 +1,5 @@
 package coup;
 
-import coup.textui.SimplePlayer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,8 +22,49 @@ public class RulesetParserTest {
 
     @Before
     public void setUp() {
-        player = new SimplePlayer("playa");
-        target = new SimplePlayer("Clay Pigeon");
+        player = new Player("playa") {
+            @Override
+            public String reveal() {
+                return null;
+            }
+
+            @Override
+            public void returnCard(String card) {
+
+            }
+
+            @Override
+            public void pickUp(int number) {
+
+            }
+
+            @Override
+            public void swap(int number) {
+
+            }
+        };
+
+        target = new Player("Clay Pigeon") {
+            @Override
+            public String reveal() {
+                return null;
+            }
+
+            @Override
+            public void returnCard(String card) {
+
+            }
+
+            @Override
+            public void pickUp(int number) {
+
+            }
+
+            @Override
+            public void swap(int number) {
+
+            }
+        };
         turn = new Turn();
         player.setAction(turn);
 

@@ -50,13 +50,16 @@ public abstract class Game {
     public final void play() {
         while(!finished()) {
             for(Player player: players) {
-                // Next player starts a new turn
-                turn = new Turn();
+                // Skip eliminated players
+                if(player.getInfluence() > 0) {
+                    // Next player starts a new turn
+                    turn = new Turn();
 
-                // Turn consists at least of an action. Player then executes turn
-                addAction(player);
-                player.setAction(turn);
-                player.doAction();
+                    // Turn consists at least of an action. Player then executes turn
+                    addAction(player);
+                    player.setAction(turn);
+                    player.doAction();
+                }
             }
         }
     }
