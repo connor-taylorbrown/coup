@@ -91,7 +91,7 @@ public abstract class Game {
      * - Each turn the assigned player adds their action
      * - The action performed depends on the responses of other players
      */
-    public final void play() {
+    public void play() {
         while(!finished()) {
             for(Player player: players) {
                 // Skip eliminated players

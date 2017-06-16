@@ -8,7 +8,7 @@ import java.util.Stack;
  * Basic Court Deck allowing card exchange
  */
 public class Deck {
-    private Stack<String> contents;
+    protected Stack<String> contents;
 
     /**
      * Initialise deck with n copies of each given card
@@ -23,8 +23,9 @@ public class Deck {
 
     private void populateContents(Set<String> cards, int copies) {
         for(String card: cards) {
-            for(int i = 0; i < copies; i++)
+            for(int i = 0; i < copies; i++) {
                 contents.add(card);
+            }
         }
     }
 
