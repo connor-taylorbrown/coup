@@ -1,9 +1,10 @@
 package coup.restful;
 
+import coup.Card;
 import coup.Player;
 
 /**
- * Player implementation for NetworkedGame service
+ * Player implementation for use in online Coup
  */
 public class NetworkedPlayer extends Player {
     public NetworkedPlayer(String name) {
@@ -11,18 +12,8 @@ public class NetworkedPlayer extends Player {
     }
 
     @Override
-    public String reveal() {
+    public Card reveal() {
         return null;
-    }
-
-    @Override
-    public void returnCard(String card) {
-
-    }
-
-    @Override
-    public void pickUp(int number) {
-
     }
 
     @Override

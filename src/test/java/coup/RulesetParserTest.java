@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.Map;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by connortaylorbrown on 4/06/17.
@@ -24,18 +26,8 @@ public class RulesetParserTest {
     public void setUp() {
         player = new Player("playa") {
             @Override
-            public String reveal() {
+            public Card reveal() {
                 return null;
-            }
-
-            @Override
-            public void returnCard(String card) {
-
-            }
-
-            @Override
-            public void pickUp(int number) {
-
             }
 
             @Override
@@ -46,18 +38,8 @@ public class RulesetParserTest {
 
         target = new Player("Clay Pigeon") {
             @Override
-            public String reveal() {
+            public Card reveal() {
                 return null;
-            }
-
-            @Override
-            public void returnCard(String card) {
-
-            }
-
-            @Override
-            public void pickUp(int number) {
-
             }
 
             @Override

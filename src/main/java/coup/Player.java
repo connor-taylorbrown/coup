@@ -1,8 +1,6 @@
 package coup;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
 
 /**
  * Maintains player state as known to all players. As the identity of each card is not shared, the number in hand is
@@ -13,7 +11,7 @@ public abstract class Player extends Observable {
     private int influence;
     private int coins;
     private Action action;
-    protected List<String> hand;
+    protected List<Card> hand;
     protected Deck deck;
 
     /**
@@ -49,7 +47,7 @@ public abstract class Player extends Observable {
         return coins;
     }
 
-    public List<String> getHand() {
+    public List<Card> getHand() {
         return hand;
     }
 
@@ -94,22 +92,30 @@ public abstract class Player extends Observable {
     }
 
     /**
-     * Reveal a card in hand to the table
-     * @return name of the card
-     */
-    public abstract String reveal();
-
-    /**
      * Remove a named card from the hand and return it to the Court Deck after being revealed
-     * @param card name of the card
+     * @param card card to return
      */
-    public abstract void returnCard(String card);
+    public void returnCard(Card card) {
+        hand.remove(card);
+        deck.returnCard(card);
+    }
 
     /**
      * Pick up a number of cards from the Court Deck
      * @param number of cards to pick up
      */
-    public abstract void pickUp(int number);
+    public void pickUp(int number) {
+        for(int i = 0; i < number; i++) {
+            Card card = deck.getCard();
+            hand.add(card);
+        }
+    }
+
+    /**
+     * Reveal a card in hand to the table
+     * @return the card
+     */
+    public abstract Card reveal();
 
     /**
      * Swap a number of cards in the hand with the Court Deck. Must have at least that number of cards in hand.

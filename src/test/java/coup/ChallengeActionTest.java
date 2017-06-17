@@ -25,18 +25,8 @@ public class ChallengeActionTest {
 
         player = new Player("playa") {
             @Override
-            public String reveal() {
+            public Card reveal() {
                 return null;
-            }
-
-            @Override
-            public void returnCard(String card) {
-
-            }
-
-            @Override
-            public void pickUp(int number) {
-
             }
 
             @Override
@@ -57,7 +47,7 @@ public class ChallengeActionTest {
     public void playerLosesInfluenceGivenCorrectCard() {
         int expectedInfluence = player.getInfluence() - 1;
 
-        when(target.reveal()).thenReturn("Ambassador");
+        when(target.reveal()).thenReturn(new Card("Ambassador"));
         player.doAction();
         assertEquals(expectedInfluence, player.getInfluence());
     }
@@ -66,7 +56,7 @@ public class ChallengeActionTest {
     public void playerRetainsInfluenceGivenWrongCard() {
         int expectedInfluence = player.getInfluence();
 
-        when(target.reveal()).thenReturn("Contessa");
+        when(target.reveal()).thenReturn(new Card("Contessa"));
         player.doAction();
         assertEquals(expectedInfluence, player.getInfluence());
     }

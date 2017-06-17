@@ -53,7 +53,7 @@ public class SimpleGame extends Game implements Observer {
         for(Player eachPlayer: players) System.out.println(eachPlayer);
         for(String action: getAvailableActions(player).keySet()) System.out.println(action);
         System.out.println();
-        for(String card: player.getHand()) System.out.println(card);
+        for(Card card: player.getHand()) System.out.println(card);
         System.out.print(player.getName() + ": ");
 
         return input.nextLine();

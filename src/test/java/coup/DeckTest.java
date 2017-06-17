@@ -32,4 +32,16 @@ public class DeckTest {
         }
         assertEquals(cards.size() * 3, count);
     }
+
+    @Test
+    public void cardHiddenAfterReturnToDeck() {
+        cards = new HashSet<>();
+        cards.add("duke");
+        deck = new Deck(cards, 1);
+
+        Card card = deck.getCard();
+        card.setRevealed(true);
+        deck.returnCard(card);
+        assertFalse(deck.getCard().isRevealed());
+    }
 }

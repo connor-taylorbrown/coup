@@ -8,7 +8,7 @@ import java.util.Stack;
  * Basic Court Deck allowing card exchange
  */
 public class Deck {
-    protected Stack<String> contents;
+    protected Stack<Card> contents;
 
     /**
      * Initialise deck with n copies of each given card
@@ -24,7 +24,7 @@ public class Deck {
     private void populateContents(Set<String> cards, int copies) {
         for(String card: cards) {
             for(int i = 0; i < copies; i++) {
-                contents.add(card);
+                contents.add(new Card(card));
             }
         }
     }
@@ -38,18 +38,20 @@ public class Deck {
     }
 
     /**
-     * Get the top card off the deck if not empty
-     * @return name of card
+     * Get the top card off the deck if not empty. Always face-down
+     * @return card with revealed set to false
      */
-    public String getCard() {
-        return contents.pop();
+    public Card getCard() {
+        Card card = contents.pop();
+        card.setRevealed(false);
+        return card;
     }
 
     /**
      * Shuffle a card into the deck
      * @param card to add
      */
-    public void returnCard(String card) {
+    public void returnCard(Card card) {
         contents.add(card);
         shuffle();
     }

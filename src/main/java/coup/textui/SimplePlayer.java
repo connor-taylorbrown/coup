@@ -1,5 +1,6 @@
 package coup.textui;
 
+import coup.Card;
 import coup.Player;
 
 import java.util.Scanner;
@@ -17,43 +18,28 @@ public class SimplePlayer extends Player {
         this(name, 2,2);
     }
 
-    private String pickCard(String prompt) {
+    private Card pickCard(String prompt) {
         Scanner input = new Scanner(System.in);
-        String card = null;
-        while(!hand.contains(card)) {
+        String card;
+        do {
             System.out.print(prompt);
             card = input.next();
-        }
-        return card;
+        } while(!hand.contains(new Card(card)));
+        return new Card(card);
     }
 
     @Override
-    public String reveal() {
-        for(String card: hand) System.out.println(card);
-        String card = pickCard(getName() + " reveals: ");
+    public Card reveal() {
+        for(Card card: hand) System.out.println(card);
+        Card card = pickCard(getName() + " reveals: ");
         hand.remove(card);
         return card;
-    }
-
-    @Override
-    public void returnCard(String card) {
-        hand.remove(card);
-        deck.returnCard(card);
-    }
-
-    @Override
-    public void pickUp(int number) {
-        for(int i = 0; i < number; i++) {
-            String card = deck.getCard();
-            hand.add(card);
-            System.out.println(getName() + " picks up " + card);
-        }
     }
 
     @Override
     public void swap(int number) {
         System.out.println(getName() + " swaps " + number +  ":");
-        for(String card: hand) System.out.println("- " + card);
+        for(Card card: hand) System.out.println("- " + card);
         for(int i = 0; i < number; i++)
             returnCard(pickCard("Return: "));
     }

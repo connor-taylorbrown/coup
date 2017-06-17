@@ -13,7 +13,7 @@ public class ChallengeAction extends Action {
     /**
      * Set of cards which win challenge
      */
-    private Set<String> cards;
+    private Set<String> legalCards;
     private Action toChallenge;
 
     /**
@@ -22,7 +22,7 @@ public class ChallengeAction extends Action {
      * @param toChallenge target action of this challenge
      */
     public ChallengeAction(Set<String> cards, Action toChallenge) {
-        this.cards = cards;
+        this.legalCards = cards;
         this.toChallenge = toChallenge;
     }
 
@@ -39,8 +39,8 @@ public class ChallengeAction extends Action {
     public void execute() {
         Player target = toChallenge.player;   // Target is always the player of the challenged action
 
-        String revealed = target.reveal();
-        if(cards.contains(revealed)) {
+        Card revealed = target.reveal();
+        if(legalCards.contains(revealed.getName())) {
             toChallenge.setChallenged(false);
 
             player.removeInfluence();

@@ -93,7 +93,7 @@ public class RulesetParser {
     private void readCardActions() throws RulesetSyntaxException {
         while(reader.hasNextLine()) {
             String line = reader.nextLine().trim();
-            Scanner tokens = new Scanner(line).useDelimiter(" |:\\s*");
+            Scanner tokens = new Scanner(line).useDelimiter("(?<!,)\\s+|:\\s*");
 
             String lookahead = tokens.next();
             if(lookahead.equals("block")) readBlockAction(tokens.next(), tokens.next());
