@@ -18,10 +18,12 @@ public class ChallengeAction extends Action {
 
     /**
      * Initialise challenge with set of cards target needs to win challenge, and the challenged action
+     * @param label action label
      * @param cards needed to win challenge
      * @param toChallenge target action of this challenge
      */
-    public ChallengeAction(Set<String> cards, Action toChallenge) {
+    public ChallengeAction(String label, Set<String> cards, Action toChallenge) {
+        this.label = label;
         this.legalCards = cards;
         this.toChallenge = toChallenge;
     }

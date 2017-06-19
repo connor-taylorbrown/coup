@@ -80,14 +80,14 @@ public class RulesetParser {
 
     private void readIntransitiveAction(String name, Scanner tokens) {
         int coins = tokens.nextInt();
-        if(!tokens.hasNext()) actions.put(name, new IntransitiveAction(coins));
+        if(!tokens.hasNext()) actions.put(name, new IntransitiveAction(name, coins));
         else readTransitiveAction(name, coins, tokens);
     }
 
     private void readTransitiveAction(String name, int coins, Scanner tokens) {
         int targetCoins = tokens.nextInt();
         boolean targetInfluence = tokens.next().toLowerCase().startsWith("y");
-        actions.put(name, new TransitiveAction(coins, targetCoins, targetInfluence));
+        actions.put(name, new TransitiveAction(name, coins, targetCoins, targetInfluence));
     }
 
     private void readCardActions() throws RulesetSyntaxException {
@@ -115,17 +115,17 @@ public class RulesetParser {
     private void readChallengeAction(String name, String cardText) throws RulesetSyntaxException {
         Set<String> cards = getCards(cardText);
         // Directly challenge the action
-        ChallengeAction challenge = new ChallengeAction(cards, actions.get(name));
+        ChallengeAction challenge = new ChallengeAction(name, cards, actions.get(name));
         actions.put("challenge " + name, challenge);
     }
 
     private void readBlockAction(String name, String cardText) throws RulesetSyntaxException {
         Set<String> cards = getCards(cardText);
         // Directly block the action
-        BlockAction block = new BlockAction(actions.get(name));
+        BlockAction block = new BlockAction(name, actions.get(name));
         actions.put("block " + name, block);
         // Challenge the block
-        ChallengeAction challenge = new ChallengeAction(cards, block);
+        ChallengeAction challenge = new ChallengeAction(name, cards, block);
         actions.put("challenge block " + name, challenge);
     }
 }

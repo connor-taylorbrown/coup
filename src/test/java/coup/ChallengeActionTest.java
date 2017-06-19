@@ -36,8 +36,8 @@ public class ChallengeActionTest {
         };
         target = mock(Player.class);
 
-        Action challenged = new TransitiveAction(2,-2,false);
-        ChallengeAction challenge = new ChallengeAction(cards, challenged);
+        Action challenged = new TransitiveAction("steal", 2,-2,false);
+        ChallengeAction challenge = new ChallengeAction("challenge steal", cards, challenged);
 
         challenged.setPlayer(target);
         player.setAction(challenge);

@@ -6,9 +6,18 @@ package coup;
  * to support the definition of actions at runtime.
  */
 public abstract class Action {
+    protected String label = null;
     protected Player player;
     private boolean blocked = false;
     private boolean challenged = false;
+
+    public String getLabel() {
+        return label;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
 
     public void setPlayer(Player player) {
         this.player = player;

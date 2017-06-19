@@ -16,7 +16,7 @@ public class TransitiveActionTest {
 
     @Before
     public void setUp() {
-        action = new TransitiveAction(2,-2,false);
+        action = new TransitiveAction("steal",2,-2,false);
         player = new SimplePlayer("playa");
         target = new SimplePlayer("Clay Pigeon");
 

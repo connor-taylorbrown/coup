@@ -15,7 +15,7 @@ public class TextUI {
     public static void main(String[] args) {
         try {
             RulesetParser parser = new RulesetParser();
-            parser.addCustomAction("exchange", new ExchangeAction());
+            parser.addCustomAction("exchange", new ExchangeAction("exchange"));
             parser.read();
 
             Game game = new SimpleGame(parser.getDeck(), parser.getActions());

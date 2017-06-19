@@ -15,7 +15,7 @@ public class BlockActionTest {
 
     @Before
     public void setUp() {
-        action = new IntransitiveAction(2);
+        action = new IntransitiveAction("foreignAid", 2);
         player = new SimplePlayer("playa");
 
         player.setAction(action);
@@ -23,7 +23,7 @@ public class BlockActionTest {
 
     @Test
     public void blockedActionDoesNothing() {
-        BlockAction block = new BlockAction(action);
+        BlockAction block = new BlockAction("block foreignAid", action);
         block.execute();
 
         int expectedCoins = player.getCoins();

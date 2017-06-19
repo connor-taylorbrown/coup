@@ -5,6 +5,10 @@ package coup;
  * it requires a unique implementation.
  */
 public class ExchangeAction extends Action {
+    public ExchangeAction(String label) {
+        this.label = label;
+    }
+
     @Override
     public boolean canPerform(Player player, Action trigger) {
         return true;

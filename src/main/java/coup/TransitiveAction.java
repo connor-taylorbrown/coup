@@ -10,14 +10,19 @@ public class TransitiveAction extends IntransitiveAction {
 
     /**
      * Initialise effect of action on current player coins and target coins and influence
+     * @param label action label
      * @param coins for current player
      * @param targetCoins effect on target coins
      * @param targetInfluence true if influence reduced
      */
-    public TransitiveAction(int coins, int targetCoins, boolean targetInfluence) {
-        super(coins);
+    public TransitiveAction(String label, int coins, int targetCoins, boolean targetInfluence) {
+        super(label, coins);
         this.targetCoins = targetCoins;
         this.targetInfluence = targetInfluence;
+    }
+
+    public Player getTarget() {
+        return target;
     }
 
     /**
@@ -33,8 +38,8 @@ public class TransitiveAction extends IntransitiveAction {
      */
     @Override
     public void execute() {
+        super.execute();
         if(!isBlocked() && !isChallenged()) {
-            super.execute();
             target.updateCoins(targetCoins);
             if (targetInfluence && target.getInfluence() > 0) {
                 target.removeInfluence();

@@ -6,7 +6,8 @@ package coup;
 public class BlockAction extends Action {
     private Action toBlock;
 
-    public BlockAction(Action toBlock) {
+    public BlockAction(String label, Action toBlock) {
+        this.label = label;
         this.toBlock = toBlock;
     }
 

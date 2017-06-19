@@ -52,7 +52,7 @@ public class RulesetParserTest {
 
         try {
             RulesetParser parser = new RulesetParser();
-            parser.addCustomAction("exchange", new ExchangeAction());
+            parser.addCustomAction("exchange", new ExchangeAction("exchange"));
             parser.read();
             actions = parser.getActions();
             deck = parser.getDeck();
@@ -94,6 +94,14 @@ public class RulesetParserTest {
         turn.add(blockAssassinate);
         player.doAction();
         assertEquals(expectedInfluence, target.getInfluence());
+    }
+
+    @Test
+    public void blockAssassinatePenalisesAssassin() {
+        int expectedCoins = player.getCoins() - 3;
+        turn.add(blockAssassinate);
+        player.doAction();
+        assertEquals(expectedCoins, player.getCoins());
     }
 
     @Test

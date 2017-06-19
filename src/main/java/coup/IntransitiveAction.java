@@ -8,9 +8,11 @@ public class IntransitiveAction extends Action {
 
     /**
      * Initialise effect of action on current player coins
+     * @param label action label
      * @param coins for current player
      */
-    public IntransitiveAction(int coins) {
+    public IntransitiveAction(String label, int coins) {
+        this.label = label;
         this.coins = coins;
     }
 
@@ -20,11 +22,11 @@ public class IntransitiveAction extends Action {
     }
 
     /**
-     * Apply effect to current player
+     * Apply effect to current player if it carries cost or is not blocked or challenged
      */
     @Override
     public void execute() {
-        if(!isBlocked() && !isChallenged())
+        if(coins < 0 || !isBlocked() && !isChallenged())
             player.updateCoins(coins);
     }
 }

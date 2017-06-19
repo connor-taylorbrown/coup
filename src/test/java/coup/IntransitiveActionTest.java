@@ -15,7 +15,7 @@ public class IntransitiveActionTest {
 
     @Before
     public void setUp() {
-        action = new IntransitiveAction(2);
+        action = new IntransitiveAction("foreignAid",2);
         player = new SimplePlayer("playa");
 
         player.setAction(action);

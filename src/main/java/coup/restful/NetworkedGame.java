@@ -14,7 +14,7 @@ import java.util.List;
 public class NetworkedGame extends Game {
     public NetworkedGame() throws IOException, RulesetSyntaxException {
         RulesetParser parser = new RulesetParser();
-        parser.addCustomAction("exchange", new ExchangeAction());
+        parser.addCustomAction("exchange", new ExchangeAction("exchange"));
         parser.read();
 
         this.players = new ArrayList<>();
@@ -23,35 +23,52 @@ public class NetworkedGame extends Game {
     }
 
     @RequestMapping(value = "/players", method = RequestMethod.GET)
-    public List<NetworkedPlayer> getPlayers() {
-        List<NetworkedPlayer> networkedPlayers = new ArrayList<>();
-        for(Player player: players)
-            networkedPlayers.add((NetworkedPlayer)player);
-        return networkedPlayers;
+    public List<Player> getPlayers() {
+        return players;
     }
 
     @Override
     @RequestMapping(value = "/player", method = RequestMethod.POST)
-    public void addPlayer(@RequestBody String name) {
+    public Player addPlayer(@RequestBody String name) {
         Player player = new NetworkedPlayer(name);
         player.setDeck(this.deck);
         player.pickUp(2);
 
         players.add(player);
+
+        return player;
     }
 
-    @Override
-    protected void addAction(Player player) {
-
+    @RequestMapping(value = "/actions", method = RequestMethod.GET)
+    public List<Action> getActions(@RequestParam(value = "name") String playerName) {
+        Player player = getPlayerByName(playerName);
+        List<Action> legalActions = new ArrayList<>();
+        for(Action action: rules.values()) {
+            if(action.canPerform(player, null)) legalActions.add(action);
+        }
+        return legalActions;
     }
 
-    @Override
-    protected String getCommand(Player player) {
+    private Player getPlayerByName(String playerName) {
+        for(Player player: players) {
+            if(player.getName().equals(playerName)) return player;
+        }
         return null;
     }
 
     @Override
-    protected boolean checkResponse(String response) {
-        return false;
+    public Action addAction(Player player) {
+        return null;
+    }
+
+    @Override
+    public void addResponse(Player player, String command) {
+
+    }
+
+    @Override
+    @RequestMapping(value = "/play", method = RequestMethod.POST)
+    public void play() {
+        super.play();
     }
 }

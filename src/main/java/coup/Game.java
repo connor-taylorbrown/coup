@@ -34,41 +34,32 @@ public abstract class Game {
     /**
      * Adds a player of the appropriate type for the game interface.
      * @param name of player to add
+     * @return player object added
      */
-    public abstract void addPlayer(String name);
+    public abstract Player addPlayer(String name);
 
     /**
      * Adds an action to the current turn to be performed by the given player.
      * @param player to perform action
+     * @return action sought by the player
      * @see Turn
      */
-    protected abstract void addAction(Player player);
-
-    /**
-     * Gets the command from the player for the initial action in the turn.
-     * @param player whose turn it is to start
-     * @return command for the player's action
-     */
-    protected abstract String getCommand(Player player);
-
-    /**
-     * Checks whether any player wishes to respond to the last action, adds their response and returns true if so
-     * @param response to a previous action
-     * @return true if response is legal and requested
-     */
-    protected abstract boolean checkResponse(String response);
+    public abstract Action addAction(Player player);
 
     /**
      * Adds a player's response to the last action
      * @param player responding to last action
      * @param command type of response
      */
-    protected void addResponse(Player player, String command) {
-        Action action = rules.get(command);
-        action.setPlayer(player);
-        turn.add(action);
+    public abstract void addResponse(Player player, String command);
 
-        checkResponse("challenge " + command);
+    /**
+     * Checks whether the given response to the last action is legal
+     * @param response to the previous action
+     * @return true if response is legal
+     */
+    public boolean canRespond(String response) {
+        return rules.containsKey(response);
     }
 
     /**

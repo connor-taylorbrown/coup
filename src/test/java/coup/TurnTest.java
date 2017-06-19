@@ -24,11 +24,11 @@ public class TurnTest {
         blocker = new SimplePlayer("blocka");
         player.setAction(turn);
 
-        action = new IntransitiveAction(2);
+        action = new IntransitiveAction("foreignAid", 2);
         action.setPlayer(player);
         turn.add(action);
 
-        block = new BlockAction(action);
+        block = new BlockAction("block foreignAid", action);
         block.setPlayer(blocker);
     }
 

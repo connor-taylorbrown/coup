@@ -17,19 +17,22 @@ public class SimpleGame extends Game implements Observer {
     /**
      * Add a player of type SimplePlayer after picking up starting hand
      * @param name of player to add
+     * @return player object added
      */
     @Override
-    public void addPlayer(String name) {
+    public Player addPlayer(String name) {
         Player player = new SimplePlayer(name);
         player.setDeck(this.deck);
         player.pickUp(2);
 
         player.addObserver(this);
         players.add(player);
+
+        return player;
     }
 
     @Override
-    protected void addAction(Player player) {
+    public Action addAction(Player player) {
         String[] command = getCommand(player).split("\\s+");
         Action action = getAvailableActions(player).get(command[0]);
 
@@ -43,10 +46,11 @@ public class SimpleGame extends Game implements Observer {
         // Ask players if they wish to block or challenge
         if(!checkResponse("block " + command[0]))
             checkResponse("challenge " + command[0]);
+
+        return action;
     }
 
-    @Override
-    protected String getCommand(Player player) {
+    private String getCommand(Player player) {
         Scanner input = new Scanner(System.in);
 
         System.out.println("====================");
@@ -59,19 +63,24 @@ public class SimpleGame extends Game implements Observer {
         return input.nextLine();
     }
 
-    /**
-     * Checks whether player wishes to respond to an action, returns true if so
-     * @param response to a previous action
-     * @return true if response is legal and requested
-     */
-    protected boolean checkResponse(String response) {
-        Scanner input = new Scanner(System.in);
+    @Override
+    public void addResponse(Player player, String command) {
+        Action action = rules.get(command);
+        action.setPlayer(player);
+        turn.add(action);
 
-        if(rules.containsKey(response)) {
-            System.out.print(response + "? ");
+        checkResponse("challenge " + command);
+    }
+
+    private boolean checkResponse(String command) {
+        if(canRespond(command)) {
+            Scanner input = new Scanner(System.in);
+
+            System.out.print(command + "? ");
             String name = input.nextLine().trim();
             if(!name.isEmpty()) {
-                addResponse(getActivePlayers().get(name), response);
+                Player player = getActivePlayers().get(name);
+                addResponse(player, command);
                 return true;
             }
         }
