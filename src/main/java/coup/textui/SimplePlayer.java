@@ -33,6 +33,10 @@ public class SimplePlayer extends Player {
         for(Card card: hand) System.out.println(card);
         Card card = pickCard(getName() + " reveals: ");
         hand.remove(card);
+
+        this.setChanged();
+        this.notifyObservers(card);
+
         return card;
     }
 

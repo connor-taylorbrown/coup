@@ -1,15 +1,18 @@
 package coup;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
 /**
- * Allows player to invoke a challenge against whoever performed the last action.
+ * Allows player to invoke a challenge against whoever performed the last action. Observes target player, updates and
+ * detaches when they reveal a card.
  * Rules of a challenge:
  * - The target must require a specific card or cards to perform the action honestly.
  * - The target loses influence if they do not reveal a suitable card.
  * - The challenger loses influence otherwise
  */
-public class ChallengeAction extends Action {
+public class ChallengeAction extends Action implements Observer {
     /**
      * Set of cards which win challenge
      */
@@ -34,27 +37,42 @@ public class ChallengeAction extends Action {
     }
 
     /**
-     * If the target reveals a card in the set, the target swaps it and the challenger forfeits a card.
-     * If not, the target loses the revealed card.
+     * Request target to reveal a card, wait for response.
      */
     @Override
     public void execute() {
         Player target = toChallenge.player;   // Target is always the player of the challenged action
 
-        Card revealed = target.reveal();
-        if(legalCards.contains(revealed.getName())) {
-            toChallenge.setChallenged(false);
+        target.addObserver(this);
+        target.reveal();
+    }
 
-            player.removeInfluence();
-            player.reveal();
+    /**
+     * Runs when the target has revealed a card. If the card is legal, the target swaps it and the challenger forfeits
+     * a card. If not, the target loses the revealed card.
+     * @param o target player
+     * @param arg revealed card
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        Player target = (Player)o;
+        Card revealed = (Card)arg;
 
-            target.returnCard(revealed);
-            target.pickUp(1);
-        }
-        else {
-            toChallenge.setChallenged(true);
+        if(revealed != null) {
+            target.deleteObserver(this);
+            if (legalCards.contains(revealed.getName())) {
+                toChallenge.setChallenged(false);
 
-            target.removeInfluence();
+                player.removeInfluence();
+                player.reveal();
+
+                target.returnCard(revealed);
+                target.pickUp(1);
+            } else {
+                toChallenge.setChallenged(true);
+
+                target.removeInfluence();
+            }
         }
     }
 }

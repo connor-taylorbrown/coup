@@ -39,23 +39,6 @@ public class NetworkedGame extends Game {
         return player;
     }
 
-    @RequestMapping(value = "/actions", method = RequestMethod.GET)
-    public List<Action> getActions(@RequestParam(value = "name") String playerName) {
-        Player player = getPlayerByName(playerName);
-        List<Action> legalActions = new ArrayList<>();
-        for(Action action: rules.values()) {
-            if(action.canPerform(player, null)) legalActions.add(action);
-        }
-        return legalActions;
-    }
-
-    private Player getPlayerByName(String playerName) {
-        for(Player player: players) {
-            if(player.getName().equals(playerName)) return player;
-        }
-        return null;
-    }
-
     @Override
     public Action addAction(Player player) {
         return null;
