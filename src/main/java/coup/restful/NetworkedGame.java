@@ -1,35 +1,25 @@
 package coup.restful;
 
 import coup.*;
-import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Game implementation accessible as Spring Boot service online
  */
-@RestController
 public class NetworkedGame extends Game {
-    public NetworkedGame() throws IOException, RulesetSyntaxException {
-        RulesetParser parser = new RulesetParser();
-        parser.addCustomAction("exchange", new ExchangeAction("exchange"));
-        parser.read();
+    private String host;
 
+    public NetworkedGame(String host, Map<String, Action> rules, Deck deck) {
+        this.host = host;
+        this.rules = rules;
+        this.deck = deck;
         this.players = new ArrayList<>();
-        this.deck = parser.getDeck();
-        this.rules = parser.getActions();
-    }
-
-    @RequestMapping(value = "/players", method = RequestMethod.GET)
-    public List<Player> getPlayers() {
-        return players;
     }
 
     @Override
-    @RequestMapping(value = "/player", method = RequestMethod.POST)
-    public Player addPlayer(@RequestBody String name) {
+    public Player addPlayer(String name) {
         Player player = new NetworkedPlayer(name);
         player.setDeck(this.deck);
         player.pickUp(2);
@@ -50,8 +40,7 @@ public class NetworkedGame extends Game {
     }
 
     @Override
-    @RequestMapping(value = "/play", method = RequestMethod.POST)
-    public void play() {
-        super.play();
+    public String toString() {
+        return String.format("Game[host='%s']", host);
     }
 }
