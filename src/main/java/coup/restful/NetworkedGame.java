@@ -3,19 +3,34 @@ package coup.restful;
 import coup.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Game implementation accessible as Spring Boot service online
  */
 public class NetworkedGame extends Game {
+    private long id;
     private String host;
 
-    public NetworkedGame(String host, Map<String, Action> rules, Deck deck) {
+    public NetworkedGame(long id, String host, Map<String, Action> rules, Deck deck) {
+        this.id = id;
         this.host = host;
         this.rules = rules;
         this.deck = deck;
         this.players = new ArrayList<>();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 
     @Override

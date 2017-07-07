@@ -3,6 +3,7 @@ package coup.textui;
 import coup.Card;
 import coup.Player;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -16,6 +17,10 @@ public class SimplePlayer extends Player {
 
     public SimplePlayer(String name){
         this(name, 2,2);
+    }
+
+    public List<Card> getHand() {
+        return hand;
     }
 
     private Card pickCard(String prompt) {

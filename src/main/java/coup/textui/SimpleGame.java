@@ -33,7 +33,7 @@ public class SimpleGame extends Game implements Observer {
 
     @Override
     public Action addAction(Player player) {
-        String[] command = getCommand(player).split("\\s+");
+        String[] command = getCommand((SimplePlayer)player).split("\\s+");
         Action action = getAvailableActions(player).get(command[0]);
 
         if(command.length == 2) {
@@ -50,7 +50,7 @@ public class SimpleGame extends Game implements Observer {
         return action;
     }
 
-    private String getCommand(Player player) {
+    private String getCommand(SimplePlayer player) {
         Scanner input = new Scanner(System.in);
 
         System.out.println("====================");

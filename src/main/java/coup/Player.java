@@ -47,10 +47,6 @@ public abstract class Player extends Observable {
         return coins;
     }
 
-    public List<Card> getHand() {
-        return hand;
-    }
-
     /**
      * Increases the amount of coins by the given number. Assumes there are enough coins if increased by negative
      * amount.

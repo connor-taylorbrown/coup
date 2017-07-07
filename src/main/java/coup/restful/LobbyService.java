@@ -35,10 +35,30 @@ public class LobbyService {
         parser.addCustomAction("exchange", new ExchangeAction("exchange"));
         parser.read();
 
-        NetworkedGame game = new NetworkedGame(hostPlayer, parser.getActions(), parser.getDeck());
         long gameID = counter.getAndIncrement();
+        NetworkedGame game = new NetworkedGame(gameID, hostPlayer, parser.getActions(), parser.getDeck());
         games.put(gameID, game);
 
         return gameID;
+    }
+
+    /**
+     * Looks up and returns a game given an id.
+     * @param id unique identifier for a game
+     * @return game with given id or null
+     */
+    public NetworkedGame getGame(long id) {
+        return games.get(id);
+    }
+
+    /**
+     * Creates a new player of given name on game of given id. It is the caller's responsibility to ensure the game
+     * exists.
+     * @param playerName name for new player
+     * @param gameID id for existing game
+     * @return newly created player object
+     */
+    public NetworkedPlayer joinGame(String playerName, long gameID) {
+        return (NetworkedPlayer)getGame(gameID).addPlayer(playerName);
     }
 }
