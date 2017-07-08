@@ -77,12 +77,20 @@ public abstract class Game {
     }
 
     /**
+     * Deal two cards at start of game per standard rules
+     */
+    private void deal() {
+        for(Player player: players) player.pickUp(2);
+    }
+
+    /**
      * Play a game of Coup until finished.
      * - Players take turns in listed order
      * - Each turn the assigned player adds their action
      * - The action performed depends on the responses of other players
      */
     public void play() {
+        deal();
         while(!finished()) {
             for(Player player: players) {
                 // Skip eliminated players

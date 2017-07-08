@@ -15,31 +15,31 @@
     enabled. Please enable
     Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
-    <div class="row">
-        <form class="form-inline">
-            <div class="col-md-6 form-group">
-                <label for="name">Your name:</label>
-                <input type="text" id="name" class="form-control" placeholder="Josh Thieme" required>
-            </div>
-            <div class="col-md-6">
-                <button id="new-game" class="btn btn-default" type="submit">New game</button>
-            </div>
-        </form>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <table id="lobby" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Host</th>
-                </tr>
-                </thead>
-                <tbody id="games">
-                </tbody>
-            </table>
+    <div class="row inline">
+        <div class="col-md-3 form-group">
+            <label for="name">Your name:</label>
+            <input type="text" id="name" class="form-control" placeholder="Josh Thieme" required>
         </div>
     </div>
+    <form>
+        <div class="row">
+            <div class="col-md-1">
+                <button id="new-game" class="btn btn-default">New game</button>
+            </div>
+        </div>
+        <p id="new-game-id"></p>
+    </form>
+    <form class="form-inline">
+        <div class="row">
+            <div class="col-md-3 form-group">
+                <label for="join-game-id">Game:</label>
+                <input type="text" id="join-game-id" class="form-control" placeholder="69">
+            </div>
+            <div class="col-md-1">
+                <button id="join-game" class="btn btn-default">Join game</button>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

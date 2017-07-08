@@ -1,9 +1,14 @@
 package coup.restful;
 
+import coup.Player;
 import coup.RulesetSyntaxException;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * RESTful Spring Boot driven interface between web client and LobbyService.
@@ -18,7 +23,6 @@ public class LobbyController {
 
     @RequestMapping(value = "/game/create", method = RequestMethod.POST)
     public long createGame(@RequestBody String hostPlayer) throws IOException, RulesetSyntaxException {
-        System.out.println(hostPlayer);
         return lobby.createGame(hostPlayer);
     }
 
@@ -27,9 +31,17 @@ public class LobbyController {
         return lobby.getGame(id);
     }
 
-    @RequestMapping(value = "/game/{gameID}/join", method = RequestMethod.POST)
-    public NetworkedPlayer joinGame(@RequestBody String player, @PathVariable(value="gameID") long game) {
-        if(lobby.getGame(game) == null) throw new ResourceNotFoundException("That game does not appear to exist");
-        return lobby.joinGame(player, game);
+    @RequestMapping(value = "/game/{gameID}/players", method = RequestMethod.GET)
+    public List<Player> getPlayers(@PathVariable long gameID) throws ResourceNotFoundException {
+        if(lobby.getGame(gameID) == null) throw new ResourceNotFoundException();
+        return lobby.getPlayers(gameID);
+    }
+
+    @SuppressWarnings("unused")
+    @MessageMapping(value = "/game/{gameID}/join")
+    @SendTo("/topic/players/{gameID}")
+    public Player joinGame(String player, @DestinationVariable long gameID) throws ResourceNotFoundException {
+        if(lobby.getGame(gameID) == null) throw new ResourceNotFoundException();
+        return lobby.joinGame(player, gameID);
     }
 }

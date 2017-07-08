@@ -23,7 +23,6 @@ public class SimpleGame extends Game implements Observer {
     public Player addPlayer(String name) {
         Player player = new SimplePlayer(name);
         player.setDeck(this.deck);
-        player.pickUp(2);
 
         player.addObserver(this);
         players.add(player);

@@ -37,7 +37,6 @@ public class NetworkedGame extends Game {
     public Player addPlayer(String name) {
         Player player = new NetworkedPlayer(name);
         player.setDeck(this.deck);
-        player.pickUp(2);
 
         players.add(player);
 

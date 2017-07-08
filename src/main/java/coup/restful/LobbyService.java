@@ -1,12 +1,14 @@
 package coup.restful;
 
 import coup.ExchangeAction;
+import coup.Player;
 import coup.RulesetParser;
 import coup.RulesetSyntaxException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -58,7 +60,16 @@ public class LobbyService {
      * @param gameID id for existing game
      * @return newly created player object
      */
-    public NetworkedPlayer joinGame(String playerName, long gameID) {
-        return (NetworkedPlayer)getGame(gameID).addPlayer(playerName);
+    public Player joinGame(String playerName, long gameID) {
+        return getGame(gameID).addPlayer(playerName);
+    }
+
+    /**
+     * Returns a list of players added to the given game.
+     * @param gameID id for request game
+     * @return list of players
+     */
+    public List<Player> getPlayers(long gameID) {
+        return getGame(gameID).getPlayers();
     }
 }
